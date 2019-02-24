@@ -255,7 +255,7 @@ function update(source) {
         .attr("transform", function(d) {
             return "translate(" + source.y0 + "," + source.x0 + ")";
         })
-        .on("click", click); //added mouseover function
+        .on("click", click);
 
     nodeEnter.append("circle")
         .attr('class', 'nodeCircle')
@@ -283,7 +283,8 @@ function update(source) {
         if (d.value !== undefined){
             div
                 .text(d.name + ": " + d.value.toFixed(2))
-                .style("top", d3.event.pageY - viewerHeight - offsetTop + "px")
+                // .style("top", d3.event.pageY - viewerHeight - offsetTop + "px")
+                .style("top", d3.event.pageY - offsetTop + "px")
                 .style("left", d3.event.pageX + offsetLeft + "px");
         } else { div.transition().style("opacity", 1e-6) }
     }
