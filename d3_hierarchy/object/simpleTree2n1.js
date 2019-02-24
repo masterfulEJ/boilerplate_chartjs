@@ -138,10 +138,6 @@ var baseSvg = d3.select("#tree-container").append("svg")
     .attr("class", "overlay")
     .call(zoomListener);
 
-var div = d3.select("#tree-container").append("div")
-    .attr("class", "tooltip")
-    // .style([300, 150]);
-
 
 // Helper functions for collapsing and expanding nodes.
 function collapse(d) {
@@ -204,11 +200,6 @@ function click(d) {
     centerNode(d);
 }
 
-var tooltip = d3.select("#tree-container")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
-
 function update(source) {
     // Compute the new height, function counts total children of root node and sets tree height accordingly.
     // This prevents the layout looking squashed when new nodes are made visible or looking sparse when nodes are removed
@@ -255,7 +246,39 @@ function update(source) {
         .attr("transform", function(d) {
             return "translate(" + source.y0 + "," + source.x0 + ")";
         })
-        .on("click", click); //added mouseover function
+        .on("click", click) //added mouseover function
+        .on("mouseover", function(d) {
+            var g = d3.select(this); // The node
+            if (d.value !== undefined){
+                // The class is used to remove the additional text later
+                g.append('text')
+                    .attr('x', 20)
+                    .attr('y', 15)
+                    .classed('event-text', true)
+                    .text('Value: ' + d.value.toFixed(2))
+                    .style("font-size", "13px")
+                    .call(getTextBox)
+                g.insert('rect', 'text')
+                    .attr("x", function(d){return d.bbox.x - 2})
+                    .attr("y", function(d){return d.bbox.y - 2})
+                    .attr("width", function(d){return d.bbox.width + 4})
+                    .attr("height", function(d){return d.bbox.height + 4})
+                    .style("fill", "#FFF")
+                    .style("fill-opacity", 100);
+            }
+        })
+        // .on("mouseover", function(d, i){msover(d, i);})
+        .on("mouseout", function() {
+            g = d3.select(this); // The node
+                // Remove the info text on mouse out.
+                g.select('text.event-text').remove()
+                g.select('rect').remove()
+        });
+    ;
+
+    function getTextBox(selection) {
+        selection.each(function(d) {d.bbox = this.getBBox();})
+    }
 
     nodeEnter.append("circle")
         .attr('class', 'nodeCircle')
@@ -268,32 +291,7 @@ function update(source) {
             return val; })
         .style("fill", function(d) {
             return d._children ? "lightsteelblue" : "#fff";
-        }) // added mouse over
-        .on("mouseover", mouseover)
-        .on("mousemove", function(d){ mousemove(d); })
-        .on("mouseout", mouseout);
-
-    function mouseover() {
-        div.transition()
-            .duration(50)
-            .style("opacity", 1);
-    }
-
-    function mousemove(d) {
-        if (d.value !== undefined){
-            div
-                .text(d.name + ": " + d.value.toFixed(2))
-                .style("top", d3.event.pageY - viewerHeight - offsetTop + "px")
-                .style("left", d3.event.pageX + offsetLeft + "px");
-        } else { div.transition().style("opacity", 1e-6) }
-    }
-
-    function mouseout() {
-        div.transition()
-            .duration(50)
-            .style("opacity", 1e-6);
-    }
-
+        })
 
     nodeEnter.append("text")
         .attr("x", function(d) {
