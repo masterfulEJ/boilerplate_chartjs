@@ -220,9 +220,6 @@ function update(source) {
     var nodes = tree.nodes(root).reverse(),
         links = tree.links(nodes);
 
-    // var node = svg.selectAll("g.node")
-    //     .data(nodes, function(d) { return d.id || (d.id = ++i); });
-
     // Set widths between levels based on maxLabelLength.
     nodes.forEach(function(d) {
         d.y = (d.depth * (maxLabelLength * 10)); //maxLabelLength * 10px
@@ -248,15 +245,32 @@ function update(source) {
 
     nodeEnter.append("circle")
         .attr('class', 'nodeCircle')
-        .attr("r", function(d) { return d.value; })
+        .attr("r", function(d) {
+            if (d.value === undefined) {
+                val = 4.5;
+            } else {
+                val = d.value;
+            };
+            return val; })
         .style("fill", function(d) {
             return d._children ? "lightsteelblue" : "#fff";
         });
 
     nodeEnter.append("text")
+        // .attr("x", function(d) {
+        //     return d.children || d._children ? 
+        //         (d.value + 4) * -1 : d.value + 4; })
         .attr("x", function(d) {
-            return d.children || d._children ? -10 : 10;
+            if (d.value === undefined) {
+                val = 4.5;
+            } else {
+                val = d.value;
+            };
+            return d.children || d._children ?
+                (val + 4) * -1: val + 4;
         })
+        //     return d.children || d._children ? -10 : 10;
+        // })
         .attr("dy", ".35em")
         .attr('class', 'nodetext')
         .attr("text-anchor", function(d) {
@@ -283,9 +297,20 @@ function update(source) {
 
     // Update the text to reflect whether node has children or not.
     node.select('text')
+        // .attr("x", function(d) {
+        //     return d.children || d._children ?
+        //         (d.value + 4) * -1 : d.value + 4; })
         .attr("x", function(d) {
-            return d.children || d._children ? -10 : 10;
+            if (d.value === undefined) {
+                val = 4.5;
+            } else {
+                val = d.value;
+            };
+            return d.children || d._children ?
+                (val + 4) * -1: val + 4;
         })
+        //     return d.children || d._children ? -10 : 10;
+        // })
         .attr("text-anchor", function(d) {
             return d.children || d._children ? "end" : "start";
         })
@@ -295,7 +320,14 @@ function update(source) {
 
     // Change the circle fill depending on whether it has children and is collapsed
     node.select("circle.nodeCircle")
-        .attr("r", 4.5)
+        // .attr("r", 4.5)
+        .attr("r", function(d) {
+            if (d.value === undefined) {
+                val = 4.5;
+            } else {
+                val = d.value;
+            };
+            return val; })
         .style("fill", function(d) {
             return d._children ? "lightsteelblue" : "#fff";
         });

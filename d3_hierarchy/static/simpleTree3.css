@@ -2,17 +2,24 @@
     cursor: pointer;
 }
 
- .node circle {
-   fill: #fff;
-   stroke: steelblue;
-   stroke-width: 3px;
- }
+.overlay{
+  background-color:#EEE;
+}
 
- .node text { font: 12px sans-serif; }
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
 
- .link {
-   fill: none;
-   stroke: #ccc;
-   stroke-width: 2px;
- }
+.node text {
+  font-size:10px;
+  font-family:sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
  

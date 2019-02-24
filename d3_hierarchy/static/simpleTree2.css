@@ -23,16 +23,16 @@
   stroke-width: 1.5px;
 }
 
-.templink {
+/* .templink {
   fill: none;
   stroke: red;
   stroke-width: 3px;
-}
+} */
 
-.ghostCircle.show{
+/* .ghostCircle.show{
   display:block;
-}
+} */
 
-.ghostCircle, .activeDrag .ghostCircle{
+/* .ghostCircle, .activeDrag .ghostCircle{
   display: none;
-}
+} */
