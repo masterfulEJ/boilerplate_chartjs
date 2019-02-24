@@ -284,8 +284,8 @@ function update(source) {
             div
                 .text(d.name + ": " + d.value.toFixed(2))
                 // .style("top", d3.event.pageY - viewerHeight - offsetTop + "px")
-                .style("top", d3.event.pageY - offsetTop + "px")
-                .style("left", d3.event.pageX + offsetLeft + "px");
+                .style("top", d3.event.pageY - 7 + "px")
+                .style("left", d3.event.pageX + 7 + "px");
         } else { div.transition().style("opacity", 1e-6) }
     }
 

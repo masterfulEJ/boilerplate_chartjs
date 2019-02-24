@@ -262,10 +262,10 @@ function update(source) {
         div.html(
             "Value: " + d.value.toFixed(2)
           )
-          .style("top", d3.event.pageY - offsetTop + "px")
-          .style("left", d3.event.pageX + offsetLeft + "px");
+          .style("top", parseInt(d3.event.pageY) - 7 + "px")
+          .style("left", parseInt(d3.event.pageX) + 7 + "px");
       } else {
-        div.transition.style("opacity", 0)
+        div.transition().style("opacity", 1e-6)
       }
     })
     // .on("mouseover", function(d, i){msover(d, i);})
