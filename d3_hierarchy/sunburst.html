@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+  </head>
+  <body>
+    <h2>
+      Flare code size<br>
+      force-directed graph
+    </h2>
+
+<script src="static/d3/Rx.js"></script>
+<script src="static/d3.v5.js"></script>
+<script>
+var data = d3.json("data/flare.json", function(data) {
+  return data; })
+
+partition = data => {
+  const root = d3.hierarchy(data)
+      .sum(d => d.value)
+      .sort((a, b) => b.value - a.value);
+  return d3.partition()
+      .size([2 * Math.PI, root.height + 1])
+    (root);
+}
+// color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.children.length + 1))
+color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, 10 + 1))
+format = d3.format(",d")
+width = 932
+radius = width / 6
+arc = d3.arc()
+    .startAngle(d => d.x0)
+    .endAngle(d => d.x1)
+    .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+    .padRadius(radius * 1.5)
+    .innerRadius(d => d.y0 * radius)
+    .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1))
+</script>
+<script src="object/sunburst.js"></script>
+</body>
+</html>
