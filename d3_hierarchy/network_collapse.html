@@ -4,19 +4,17 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <link type="text/css" rel="stylesheet" href="static/network.css"/>
     <style type="text/css">
+      circle.node {
+        cursor: pointer;
+        stroke: #000;
+        stroke-width: .5px;
+      }
 
-circle.node {
-  cursor: pointer;
-  stroke: #000;
-  stroke-width: .5px;
-}
-
-line.link {
-  fill: none;
-  stroke: #9ecae1;
-  stroke-width: 1.5px;
-}
-
+      line.link {
+        fill: none;
+        stroke: #9ecae1;
+        stroke-width: 1.5px;
+      }
     </style>
   </head>
   <body>
@@ -53,14 +51,6 @@ d3.json("data/flare.json", function(data) {
   root.y = h / 2 - 80;
   update();
 });
-
-// d3.json(treeData, function(treeData) {
-//   root = treeData;
-//   // root.fixed = true;
-//   root.x = w / 2;
-//   root.y = h / 2 - 80;
-//   update();
-// });
 
 function update() {
   var nodes = flatten(root),
