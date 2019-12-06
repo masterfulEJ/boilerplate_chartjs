@@ -3,7 +3,7 @@
 <style>
 
 text {
-  font: 10px sans-serif;
+  font: 11px sans-serif;
 }
 
 rect.background {
@@ -25,14 +25,14 @@ rect.background {
 <script src="static/d3.v4.min.js"></script>
 <script>
 
-var margin = {top: 30, right: 120, bottom: 0, left: 120},
+var margin = {top: 30, right: 120, bottom: 0, left: 300},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 var x = d3.scaleLinear()
     .range([0, width]);
 
-var barHeight = 20;
+var barHeight = 50;
 
 var color = d3.scaleOrdinal()
     .range(["steelblue", "#ccc"]);
@@ -66,14 +66,14 @@ svg.append("g")
   .append("line")
     .attr("y1", "100%");
 
-d3.json("data/readme.json", function(error, root) {
+d3.json("data/test.json", function(error, root) {
   if (error) throw error;
   root = d3.hierarchy(root)
                 .sum(d => d.size)
                 .sort((a,b) => b.value - a.value);
 
   partition(root);
-  
+
   x.domain([0, root.value]).nice();
   down(root, 0);
 });
@@ -211,6 +211,8 @@ function up(d) {
 
 // Creates a set of bars for the given data node, at the specified index.
 function bar(d) {
+  const formatNumber = d3.format(',.2%');
+
   var bar = svg.insert("g", ".y.axis")
       .attr("class", "enter")
       .attr("transform", "translate(0,5)")
@@ -230,6 +232,9 @@ function bar(d) {
   bar.append("rect")
       .attr("width", function(d) { return x(d.value); })
       .attr("height", barHeight);
+
+  bar.append('title')
+      .text(d => d.data.name + '\n' + formatNumber(d.value));
 
   return bar;
 }
